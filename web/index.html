@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="clienteAngular">
+    <head>
+        <title>Cliente Angular</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-filter.min.js"></script>
+        <script src="js/md5.js"></script>
+        <script src="js/tcc.js"></script>
+        <link rel="stylesheet" href="css/tcc.css">
+    </head>
+    <body>
+        <div class="tab">
+            <div ng-controller="leituraCtrl" ng-init="iniciaLeituras()">
+                <button ng-click="mostrarLeituras()">{{estadoLeituras}}</button>
+                <table id="leitura" ng-hide="leituraHide">
+                    <caption>Leitura</caption>
+                    <thead>
+                        <tr>
+                            <th>idLeitura</th>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Intervalo entre Amostras</th>
+                            <th>Quantidade de Sensores</th>
+                            <th>IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in leituras">
+                            <td>{{x.idLeitura}}</td>
+                            <td>{{x.dataLeitura | date:"dd/MM/yyyy HH:mm"}}</td>
+                            <td>{{x.descricao}}</td>
+                            <td>{{x.intervaloEntreAmostras}}</td>
+                            <td>{{x.quantidadeSensores}}</td>
+                            <td>{{x.ip}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button ng-click="divNova()">Nova Leitura</button>
+                <div id="novaLeitura" ng-hide="novaLeituraHide">
+                    <form name="formnovaLeitura" method="post" ng-submit="envia(leitura)">
+                        <fieldset>
+                            <legend>Nova Leitura</legend>
+                            <label>Descrição<input type="text" ng-model="leitura.descricao" name="descricao" ng-maxlength="255"/>
+                            </label>
+                            <label>Intervalo entre Amostras<input type="number" ng-model="leitura.intervaloEntreAmostras" name="intervaloEntreAmostras" required/>
+                            </label>
+                            <label>Quantidade de Sensores<input type="number" ng-model="leitura.quantidadeSensores" name="quantidadeSensores" min="1" max="4" required/>
+                            </label>
+                            <ul class="ulBotoes">
+                                <li class="liBotoes">
+                                    <button type="submit" id="enviaLeitura" ng-disabled="!formnovaLeitura.$valid">Enviar</button>
+                                </li>
+                                <li class="liBotoes">
+                                    <button name="cancelaLeitura" ng-click="cancelaLeitura()">Cancelar</button>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="tab">
+            <div ng-controller="dadoCtrl" ng-init="iniciaDados()" >
+                <table id="tabDado">
+                    <caption>Dado</caption>
+                    <thead>
+                        <tr>
+                            <th>idDado</th>
+                            <th>idLeitura</th>
+                            <th>Sensor</th>
+                            <th>Valor</th>
+                            <th>Tempo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat ="x in dados">
+                            <td>{{x.idDado}}</td>
+                            <td>{{x.idLeitura.idLeitura}}</td>
+                            <td>{{x.sensor}}</td>
+                            <td>{{x.valor}}</td>
+                            <td>{{x.tempo | date:"dd/MM/yyyy HH:mm"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button ng-click="divNova()">novo</button>
+                <div id="divNovoDado" ng-hide="novoDadoHide">
+                    <form name="formNovoDado" method="post" ng-submit="envia(dado)">
+                        <fieldset>
+                            <legend>Novo Dado</legend>
+                            <label for="idLeitura">idLeitura</label>                                
+                            <select id="idLeitura" name="Leitura" ng-model="dado.idLeitura" required>
+                                <option ng-repeat="x in leituras" value="{{x}}">{{x.idLeitura}}</option>
+                            </select>
+                            <label>Sensor<input type="number" ng-model="dado.sensor" name="sensor" min="1" max="4" required/>
+                            </label>
+                            <label>Valor<input type="number" ng-model="dado.valor" name="valor" required/>
+                            </label>
+                            <label>Hash<input type="text" ng-model="dado.hash" name=hash readonly/>
+                            </label>
+                            <ul class="ulBotoes">
+                                <li class="liBotoes">
+                                    <button type="submit" ng-disabled="!formNovoDado.$valid">Enviar</button>
+                                </li>
+                                <li class="liBotoes">
+                                    <button name="cancelaDado" ng-click="cancelaDado()">Cancelar</button>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </form>
+                </div>
+                <div id="join" ng-controller="joinCtrl">               
+                    <p>Leitura/Dado Join</p>
+                    <ul>
+                        <li class="leituraLi" ng-repeat ="(key, value) in dados | groupBy:'idLeitura.idLeitura' ">
+                            <table class="leituraLiTab">
+                                <thead>
+                                    <tr>
+                                        <th>idLeitura</th>
+                                        <th>Data</th>
+                                        <th>Descrição</th>
+                                        <th>Intervalo entre Amostras</th>
+                                        <th>Quantidade de Sensores</th>
+                                        <th>IP</th>  
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in value| unique:'idLeitura'">
+                                        <td>{{x.idLeitura.idLeitura}}</td>
+                                        <td>{{x.idLeitura.dataLeitura | date:"dd/MM/yyyy HH:mm"}}</td>
+                                        <td>{{x.idLeitura.descricao}}</td>
+                                        <td>{{x.idLeitura.intervaloEntreAmostras}}</td>
+                                        <td>{{x.idLeitura.quantidadeSensores}}</td>
+                                        <td>{{x.idLeitura.ip}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul ng-controller="ulCtrl" ng-init="iniciaUl()">
+                                <li>
+                                    <button ng-click="mostraUl()">{{maisOuMenos}}</button>
+                                </li>
+                                <li ng-hide="ulHide">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>idDado</th>
+                                                <th>Sensor</th>
+                                                <th>Valor</th>
+                                                <th>Tempo</th>
+                                            </tr></thead>
+                                        <tbody>
+                                            <tr ng-repeat="y in value">
+                                                <td>{{y.idDado}}</td>
+                                                <td>{{y.sensor}}</td>
+                                                <td>{{y.valor}}</td>
+                                                <td>{{y.tempo | date:"dd/MM/yyyy HH:mm"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
