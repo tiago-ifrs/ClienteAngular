@@ -6,13 +6,15 @@ and open the template in the editor.
 -->
 <html ng-app="clienteAngular">
     <head>
-        <title>Cliente Angular</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/angular.min.js"></script>
         <script src="js/angular-filter.min.js"></script>
         <script src="js/md5.js"></script>
         <script src="js/tcc.js"></script>
+        <script src="js/ip.js"></script>
+        
+        <title ng-controller="titleCtrl" ng-init="listaIp()">Cliente Angular {{tituloIp}}</title>        
         <link rel="stylesheet" href="css/tcc.css">
     </head>
     <body>
@@ -35,7 +37,7 @@ and open the template in the editor.
                     <tbody>
                         <tr ng-repeat="x in leituras">
                             <td>{{x.idLeitura}}</td>
-                            <td>{{x.dataLeitura | date:"dd/MM/yyyy HH:mm"}}</td>
+                            <td>{{x.dataLeitura| date:"dd/MM/yyyy HH:mm"}}</td>
                             <td>{{x.descricao}}</td>
                             <td>{{x.intervaloEntreAmostras}}</td>
                             <td>{{x.quantidadeSensores}}</td>
@@ -86,7 +88,7 @@ and open the template in the editor.
                             <td>{{x.idLeitura.idLeitura}}</td>
                             <td>{{x.sensor}}</td>
                             <td>{{x.valor}}</td>
-                            <td>{{x.tempo | date:"dd/MM/yyyy HH:mm"}}</td>
+                            <td>{{x.tempo| date:"dd/MM/yyyy HH:mm"}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -134,7 +136,7 @@ and open the template in the editor.
                                 <tbody>
                                     <tr ng-repeat="x in value| unique:'idLeitura'">
                                         <td>{{x.idLeitura.idLeitura}}</td>
-                                        <td>{{x.idLeitura.dataLeitura | date:"dd/MM/yyyy HH:mm"}}</td>
+                                        <td>{{x.idLeitura.dataLeitura| date:"dd/MM/yyyy HH:mm"}}</td>
                                         <td>{{x.idLeitura.descricao}}</td>
                                         <td>{{x.idLeitura.intervaloEntreAmostras}}</td>
                                         <td>{{x.idLeitura.quantidadeSensores}}</td>
@@ -160,7 +162,7 @@ and open the template in the editor.
                                                 <td>{{y.idDado}}</td>
                                                 <td>{{y.sensor}}</td>
                                                 <td>{{y.valor}}</td>
-                                                <td>{{y.tempo | date:"dd/MM/yyyy HH:mm"}}</td>
+                                                <td>{{y.tempo| date:"dd/MM/yyyy HH:mm"}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
