@@ -50,6 +50,18 @@ app.controller('leituraCtrl', function ($scope, $http) {
 });
 
 app.controller('dadoCtrl', function ($scope, $http) {
+    $scope.dadoHide = true;
+    $scope.estadoDados = "Mostra Dados"
+    $scope.mostrarDados = function () {
+         if($scope.dadosHide === true) {
+            $scope.dadosHide = false;
+            $scope.estadoDados = "Esconde Dados"
+        }
+        else {
+            $scope.dadosHide = true;
+            $scope.estadoDados = "Mostra Dados"
+        }
+    };
     $scope.novoDadoHide = true;
     $scope.divNova = function () {
         $scope.novoDadoHide = false;

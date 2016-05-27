@@ -71,7 +71,8 @@ and open the template in the editor.
         </div>
         <div class="tab">
             <div ng-controller="dadoCtrl" ng-init="iniciaDados()" >
-                <table id="tabDado">
+                <button ng-click="mostrarDados()">{{estadoDados}}</button>
+                <table id="tabDado" ng-hide="dadoHide">
                     <caption>Dado</caption>
                     <thead>
                         <tr>
@@ -92,7 +93,7 @@ and open the template in the editor.
                         </tr>
                     </tbody>
                 </table>
-                <button ng-click="divNova()">novo</button>
+                <button ng-click="divNova()">Novo Dado</button>
                 <div id="divNovoDado" ng-hide="novoDadoHide">
                     <form name="formNovoDado" method="post" ng-submit="envia(dado)">
                         <fieldset>
@@ -119,7 +120,7 @@ and open the template in the editor.
                     </form>
                 </div>
                 <div id="join" ng-controller="joinCtrl">               
-                    <p>Leitura/Dado Join (últimos 10 dados)</p>
+                    <p>Leitura/Dado Join</p>
                     <ul>
                         <li class="leituraLi" ng-repeat ="(key, value) in dados | groupBy:'idLeitura.idLeitura' ">
                             <table class="leituraLiTab">
