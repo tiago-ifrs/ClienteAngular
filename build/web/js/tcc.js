@@ -53,12 +53,12 @@ app.controller('dadoCtrl', function ($scope, $http) {
     $scope.dadoHide = true;
     $scope.estadoDados = "Mostra Dados"
     $scope.mostrarDados = function () {
-         if($scope.dadosHide === true) {
-            $scope.dadosHide = false;
+         if($scope.dadoHide === true) {
+            $scope.dadoHide = false;
             $scope.estadoDados = "Esconde Dados"
         }
         else {
-            $scope.dadosHide = true;
+            $scope.dadoHide = true;
             $scope.estadoDados = "Mostra Dados"
         }
     };
