@@ -18,15 +18,15 @@ function listaDados($scope, $http) {
 app.controller('leituraCtrl', function ($scope, $http) {
     $scope.leituraHide = true;
     $scope.novaLeituraHide = true;
-    $scope.estadoLeituras = "Mostra Leituras"
+    $scope.estadoLeituras = "Mostra Leituras";
     $scope.mostrarLeituras = function () {
-         if($scope.leituraHide === true) {
+        if ($scope.leituraHide === true) {
             $scope.leituraHide = false;
-            $scope.estadoLeituras = "Esconde Leituras"
+            $scope.estadoLeituras = "Esconde Leituras";
         }
         else {
             $scope.leituraHide = true;
-            $scope.estadoLeituras = "Mostra Leituras"
+            $scope.estadoLeituras = "Mostra Leituras";
         }
     };
     $scope.divNova = function () {
@@ -51,22 +51,22 @@ app.controller('leituraCtrl', function ($scope, $http) {
 
 app.controller('dadoCtrl', function ($scope, $http) {
     $scope.dadoHide = true;
-    $scope.estadoDados = "Mostra Dados"
+    $scope.estadoDados = "Mostra Dados";
     $scope.mostrarDados = function () {
-         if($scope.dadosHide === true) {
+        if ($scope.dadosHide === true) {
             $scope.dadosHide = false;
-            $scope.estadoDados = "Esconde Dados"
+            $scope.estadoDados = "Esconde Dados";
         }
         else {
             $scope.dadosHide = true;
-            $scope.estadoDados = "Mostra Dados"
+            $scope.estadoDados = "Mostra Dados";
         }
     };
     $scope.novoDadoHide = true;
     $scope.divNova = function () {
         $scope.novoDadoHide = false;
         listaLeituras($scope, $http);
-    }
+    };
     $scope.iniciaDados = function ()
     {
         listaDados($scope, $http);
@@ -102,14 +102,14 @@ app.controller('joinCtrl', function ($scope, $http) {
 });
 
 app.controller('ulCtrl', function ($scope, $http) {
-    
-    $scope.iniciaUl= function () {
+
+    $scope.iniciaUl = function () {
         $scope.ulHide = true;
         $scope.maisOuMenos = "+";
     };
-    
-    $scope.mostraUl = function () {       
-        if($scope.ulHide === true) {
+
+    $scope.mostraUl = function () {
+        if ($scope.ulHide === true) {
             $scope.ulHide = false;
             $scope.maisOuMenos = "-";
         }
